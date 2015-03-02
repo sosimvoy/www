@@ -1,0 +1,98 @@
+<!--
+td {  font-family:"arial","±¼¸²","Helvetica", "sans-serif"; font-size: 9pt; color: #000000; text-decoration: none}
+a {  font-family: "arial","±¼¸²", "Helvetica", "sans-serif"; font-size: 9pt; color: #333333; text-decoration: none}
+a:hover {  font-family: "arial","±¼¸²", "Helvetica", "sans-serif"; font-size: 9pt; color: #999999; text-decoration: underline}
+
+img {border:0;border:none;}
+
+/* jquery ¿¬µ¿ */
+.input_box {border:1 solid #999999; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 9pt;; background-color: #ffffff;}
+.cal_box {border:0; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 9pt;; background-color: #f2fae8;}
+
+
+/* °á°ú¸®½ºÆ® */
+.list {width:100%;border-top:2px solid #727272;border-bottom:1px solid #e3e3e3;margin-bottom:10px;line-height:140%;}
+.list th{height:20px;text-align:center;border-left:0px solid #d8d8d8;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;background:#d9eaf1;color:#000000;font-weight:bold;font-size:12px;color:#333333;padding:3px;}
+.list th a{font-weight:bold;}
+.list td {height:20px;text-align:center;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.list th.fst {padding:3px;border-left:0px solid #d7d7d7;}
+.list td.fst {padding:3px;border-left:0px solid #d7d7d7;}
+.list td.fstleft {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.list th.fstleft {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.list td.fstnum {text-align:right;padding:3px;border-left:0px solid #d7d7d7;}
+.list td.fstsch {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.list th.left {height:20px;text-align:left;border-bottom:1px solid #d7d7d7;color:#000000;padding:3px;}
+.list td.left {height:20px;text-align:left;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.list td.center {height:20px;text-align:center;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.list td.right {height:20px;text-align:right;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+
+
+/* È÷µçÇÁ·¹ÀÓ¹ÛÅ×ÀÌºí */
+.hd_out {width:100%;border-top:2px solid #727272;border-bottom:0px solid #e3e3e3;margin-bottom:0px;line-height:140%;}
+.hd_out th{height:20px;text-align:center;border-left:0px solid #d8d8d8;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;background:#d9eaf1;color:#000000;font-weight:bold;font-size:12px;color:#333333;padding:3px;}
+.hd_out th a{font-weight:bold;}
+.hd_out th.fst {padding:3px;border-left:0px solid #d7d7d7;}
+.hd_out th.fstleft {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.hd_out th.left {height:20px;text-align:left;border-bottom:1px solid #d7d7d7;color:#000000;padding:3px;}
+
+/* È÷µçÇÁ·¹ÀÓ¾ÈÅ×ÀÌºí */
+.hd_in {width:100%;border-top:0px solid #727272;border-bottom:1px solid #e3e3e3;margin-bottom:10px;line-height:140%; font-size: 6pt;}
+.hd_in th{height:20px;text-align:center;border-left:0px solid #d8d8d8;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;background:#d9eaf1;color:#000000;font-weight:bold;font-size:12px;color:#333333;padding:3px;}
+.hd_in td {height:20px;text-align:center;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.hd_in td.fst {padding:3px;border-left:0px solid #d7d7d7;}
+.hd_in td.fstleft {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.hd_in td.fstsch {text-align:center;padding:3px;border-left:0px solid #d7d7d7;}
+.hd_in td.left {height:20px;text-align:left;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.hd_in td.center {height:20px;text-align:center;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+.hd_in td.right {height:20px;text-align:right;border-left:1px solid #d7d7d7;border-bottom:1px solid #d7d7d7;color:#545454;padding:3px;}
+
+/* Å×ÀÌºí ÇÏ´Ü */
+table.btn {text-align:right;margin-top:15px;width:100%}
+
+/*»ó´ÜÅ¸ÀÌÆ²*/
+.sub_title {background:url(../img/sub_tl_icon.gif) no-repeat 0 0px; padding:0px 0px 0px 15px; float:left; height:20px; font-weight:bold;}
+
+
+//±âº»
+.board {  font-family:"arial","Helvetica", "sans-serif"; font-size: 9pt; color: #3399CC; text-decoration: none}
+.board a {  font-family: "arial", "Helvetica", "sans-serif"; font-size: 9pt; color: #3399CC; text-decoration: none}
+.board a:hover {  font-family: "arial", "Helvetica", "sans-serif"; font-size: 9pt; color: #999999; text-decoration: none}
+
+
+.my{  border:0; font-family: "arial","±¼¸²", "Helvetica", "sans-serif"; font-size: 8pt; color: #666666; text-align:right; text-decoration: none}
+.my1{ border:0; font-family: "arial","±¼¸²", "Helvetica", "sans-serif"; font-size: 9pt; color: #FF6633; font-weight:bold; text-align:right; text-decoration: none}
+
+.box {border:1 solid #cccccc; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 9pt;; background-color: #ffffff}
+
+.box1 {border:1 solid #cccccc; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 10pt; font-weight:bold;  background-color: #ffffff}
+
+.box2 {border:3 solid #ffffff; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 11pt; background-color: #ffffff}
+
+.box3 {border:1 solid #cccccc; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 10pt;; background-color: #ffffff}
+
+.box_r {border:1 solid #cccccc; font-family:"arial","±¼¸²", "Verdana"; FONT-SIZE: 10pt; text-align:right; background-color: #ffffff}
+
+.textbox2 { border: 1px #ffffff line; font-family:"arial", "±¼¸²", "±¼¸²", "¹ÙÅÁ"; font-size: 12px; line-height: 
+            0px; color: #666666; background-color: #ffffff; padding-right: 0px; padding-left: 0px; border-color: #ffffff solid} 
+
+
+.timec_txt {font-family:"arial","±¼¸²"; font-size:12px; color:#ffffff; background-color:#0066cc; letter-spacing:0px; }
+
+.border_right { border-right: 2px dotted #CCCCCC }
+
+.submit { font-family: "arial","±¼¸²"; font-size: 8pt; color: #666666; Background-color:#ffffff; Border:2x SOLID #CCCCCC; line-height: 
+            11px;padding-top: 4px;}
+
+BODY
+{
+    SCROLLBAR-FACE-COLOR: #CCCCCC;
+    SCROLLBAR-HIGHLIGHT-COLOR: #FFFFFF;
+    SCROLLBAR-SHADOW-COLOR: #FFFFFF;
+    SCROLLBAR-3DLIGHT-COLOR: #FFFFFF;
+    SCROLLBAR-ARROW-COLOR: #FFFFFF;
+    SCROLLBAR-TRACK-COLOR: #FFFFFF;
+    SCROLLBAR-DARKSHADOW-COLOR: #CCCCCC
+}
+-->
+
+

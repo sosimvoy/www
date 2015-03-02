@@ -1,0 +1,47 @@
+<project name="admin" default="compile" basedir=".">
+
+<property name="jeus_home.dir" value="/home1/tmax/jeus6"/>
+<property name="jeus_lib.dir" value="${jeus_home.dir}/lib"/>
+<property name="base.dir" value="${jeus_home.dir}/webhome/app_home/admin/WEB-INF"/>
+<property name="src.dir" value="${base.dir}/src"/>
+<property name="class.dir" value="${base.dir}/classes"/>
+<property name="lib.dir" value="${base.dir}/lib"/>
+<property name="temp.dir" value="${base.dir}/tempdir"/>
+
+<target name="init">
+<delete includeemptydirs="true">
+	<fileset dir="${temp.dir}" includes="**/*"/>
+</delete>
+</target>
+
+<target name="compile">
+<javac	srcdir="${src.dir}" 
+		destdir="${temp.dir}" 
+		classpath="${jeus_lib.dir}/system/jeus.jar:${jeus_lib.dir}/system/javaee.jar:${lib.dir}/cos.jar:${lib.dir}/log4j-1.2.13.jar:${lib.dir}/jxl.jar:${lib.dir}/commons-lang-2.4.jar:${jeus_lib.dir}/application/CertVerifierCRL_v2.3.2.jar:${jeus_lib.dir}/application/INICrypto_v4.0.11.jar:${jeus_lib.dir}/application/INISAFECore_v2.1.24.jar:${jeus_lib.dir}/application/INISAFENet_v7.2.13.jar:${jeus_lib.dir}/application/INISAFEPKI_v1.1.14.jar:${jeus_lib.dir}/application/INISAFEWeb_v6.4.23.jar:${jeus_lib.dir}/application/SafeDBClient_v2.3.9.jar:${jeus_lib.dir}/application/SafeDBCrypto_v2.3.9.jar:${jeus_lib.dir}/application/xercesImpl.jar:${jeus_lib.dir}/application/xml-apis.jar:${lib.dir}/itext-2.0.6.jar:${lib.dir}/iTextAsian.jar:${jeus_lib.dir}/application/jai_codec.jar:${jeus_lib.dir}/application/jai_core.jar:${jeus_lib.dir}/application/jai_imageio.jar"
+		debug="on"
+		listfiles="on"
+		deprecation="on"/>
+<copy	todir="${class.dir}">
+	<fileset dir="${temp.dir}" includes="**/*"/>
+</copy>
+</target>
+
+<target name="one">
+<javac	srcdir="${src.dir}" 
+		destdir="${temp.dir}" 
+	  classpath="${jeus_lib.dir}/system/jeus.jar:${jeus_lib.dir}/system/javaee.jar:${lib.dir}/cos.jar:${lib.dir}/log4j-1.2.13.jar:${lib.dir}/jxl.jar:${lib.dir}/commons-lang-2.4.jar:${jeus_lib.dir}/application/CertVerifierCRL_v2.3.2.jar:${jeus_lib.dir}/application/INICrypto_v4.0.11.jar:${jeus_lib.dir}/application/INISAFECore_v2.1.24.jar:${jeus_lib.dir}/application/INISAFENet_v7.2.13.jar:${jeus_lib.dir}/application/INISAFEPKI_v1.1.14.jar:${jeus_lib.dir}/application/INISAFEWeb_v6.4.23.jar:${jeus_lib.dir}/application/SafeDBClient_v2.3.9.jar:${jeus_lib.dir}/application/SafeDBCrypto_v2.3.9.jar:${jeus_lib.dir}/application/xercesImpl.jar:${jeus_lib.dir}/application/xml-apis.jar:${lib.dir}/itext-2.0.6.jar:${lib.dir}/iTextAsian.jar:${jeus_lib.dir}/application/jai_codec.jar:${jeus_lib.dir}/application/jai_core.jar:${jeus_lib.dir}/application/jai_imageio.jar"
+		includes="**/${f}"
+		listfiles="on"
+		deprecation="true"
+		debug="on" />
+<copy todir="${class.dir}">
+	<fileset dir="${temp.dir}" includes="**/*"/>
+</copy>
+</target>
+
+
+<target name="clear">
+<delete dir="${temp.dir}/com"/>
+</target>
+
+</project>

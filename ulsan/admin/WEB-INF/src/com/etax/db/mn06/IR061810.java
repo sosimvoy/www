@@ -1,0 +1,328 @@
+/*****************************************************
+* 프로젝트명     : 울산광역시 세입 및 자금배정관리시스템
+* 프로그램명     : IR061810.java
+* 프로그램작성자 :
+* 프로그램작성일 :
+* 프로그램내용   : 자금운용 > 평잔표조회
+******************************************************/
+
+package com.etax.db.mn06;
+
+import java.sql.*;
+import java.util.*;
+
+import com.etax.framework.query.*;
+import com.etax.entity.CommonEntity;
+
+public class IR061810 {
+
+	/* 월별 평잔조회 */
+  public static CommonEntity getAvgData(Connection conn, CommonEntity paramInfo) throws SQLException {
+    StringBuffer sb = new StringBuffer();
+
+    sb.append("SELECT SUM(GONGGUM_AMT) AS GONGGUM_AMT                                                                                          \n");
+    sb.append("      , SUM(JEONGGI_AMT) AS JEONGGI_AMT                                                                                         \n");
+    sb.append("      , SUM(HWAN_AMT) AS HWAN_AMT                                                                                               \n");
+    sb.append("      , SUM(MMDA_AMT) AS MMDA_AMT                                                                                               \n");
+    sb.append("      , SUM(SAVE_AMT) AS SAVE_AMT                                                                                               \n");
+    sb.append("      , SUM(TOT_AMT) AS TOT_AMT                                                                                                 \n");
+    sb.append("   FROM (                                                                                                                       \n");
+    sb.append(" SELECT TRUNC(SUM(GONGGUM_AMT) / COUNT(*),0) AS GONGGUM_AMT                                                                     \n");
+    sb.append("      , TRUNC(SUM(JEONGGI_AMT) / COUNT(*),0) AS JEONGGI_AMT                                                                     \n");
+    sb.append("      , TRUNC(SUM(HWAN_AMT) / COUNT(*),0) AS HWAN_AMT                                                                           \n");
+    sb.append("      , TRUNC(SUM(MMDA_AMT) / COUNT(*),0) AS MMDA_AMT                                                                           \n");
+    sb.append("      , TRUNC(SUM(JEONGGI_AMT + HWAN_AMT + MMDA_AMT) / COUNT(*),0) AS SAVE_AMT                                                  \n");
+    sb.append("      , TRUNC(SUM(GONGGUM_AMT + JEONGGI_AMT + HWAN_AMT + MMDA_AMT) / COUNT(*),0) AS TOT_AMT                                     \n");
+    sb.append("      , COUNT(*) AS CNT                                                                                                         \n");
+    sb.append("   FROM ( SELECT GPOSI                                                                                                          \n");
+    sb.append("               , POSI                                                                                                           \n");
+    sb.append("               , TMP_YEAR                                                                                                       \n");
+    sb.append("               , TMP_DATE                                                                                                       \n");
+    sb.append("               , STARTYN                                                                                                        \n");
+    sb.append("               , BEFORE_DATE                                                                                                    \n");
+    sb.append("               , GONGGUM_AMT AS CB_GONGGUM                                                                                      \n");
+    sb.append("               , JEONGGI_AMT AS CB_JEONGGI                                                                                      \n");
+    sb.append("               , HWAN_AMT    AS CB_HWAN                                                                                         \n");
+    sb.append("               , MMDA_AMT    AS CB_MMDA                                                                                         \n");
+    sb.append("               , NVL(GONGGUM_AMT,                                                                                               \n");
+    sb.append("                     NVL(( SELECT SUM(NVL(M170_OFFICIALDEPOSITJANAMT, 0))                                                       \n");
+    sb.append("                         FROM M170_JANECKJANG_T                                                                                 \n");
+    sb.append("                        WHERE M170_YEAR = TMP_YEAR                                                                              \n");
+    sb.append("                          AND M170_DATE = BEFORE_DATE                                                                           \n");
+    sb.append("                          AND M170_ACCTYPE = 'A'                                                                                \n");
+    sb.append("                        GROUP BY M170_DATE ),0)) AS GONGGUM_AMT                                                                 \n");
+    sb.append("               , NVL(JEONGGI_AMT,                                                                                               \n");
+    sb.append("                     NVL(( SELECT SUM(NVL(M170_DEPOSITBEFOREDAYJANAMT_1,0) + NVL(M170_DEPOSITJEUNGGAMAMT_1,0)                   \n");
+    sb.append("                                 +NVL(M170_DEPOSITBEFOREDAYJANAMT_2,0) + NVL(M170_DEPOSITJEUNGGAMAMT_2,0)                       \n");
+    sb.append("                                 +NVL(M170_DEPOSITBEFOREDAYJANAMT_3,0) + NVL(M170_DEPOSITJEUNGGAMAMT_3,0)                       \n");
+    sb.append("                                 +NVL(M170_DEPOSITBEFOREDAYJANAMT_4,0) + NVL(M170_DEPOSITJEUNGGAMAMT_4,0))                      \n");
+    sb.append("                         FROM M170_JANECKJANG_T                                                                                 \n");
+    sb.append("                        WHERE M170_YEAR = TMP_YEAR                                                                              \n");
+    sb.append("                          AND M170_DATE = BEFORE_DATE                                                                           \n");
+    sb.append("                          AND M170_ACCTYPE = 'A'                                                                                \n");
+    sb.append("                        GROUP BY M170_DATE ),0)) AS JEONGGI_AMT                                                                 \n");
+    sb.append("                 ,NVL(HWAN_AMT,                                                                                                 \n");
+    sb.append("                     NVL(( SELECT SUM(NVL(M170_RPBEFOREDAYAMT_1,0) + NVL(M170_RPJEUNGGAMAMT_1,0)                                \n");
+    sb.append("                                 +NVL(M170_RPBEFOREDAYAMT_2,0) + NVL(M170_RPJEUNGGAMAMT_2,0)                                    \n");
+    sb.append("                                 +NVL(M170_RPBEFOREDAYAMT_3,0) + NVL(M170_RPJEUNGGAMAMT_3,0)                                    \n");
+    sb.append("                                 +NVL(M170_RPBEFOREDAYAMT_4,0) + NVL(M170_RPJEUNGGAMAMT_4,0))                                   \n");
+    sb.append("                         FROM M170_JANECKJANG_T                                                                                 \n");
+    sb.append("                        WHERE M170_YEAR = TMP_YEAR                                                                              \n");
+    sb.append("                          AND M170_DATE = BEFORE_DATE                                                                           \n");
+    sb.append("                          AND M170_ACCTYPE = 'A'                                                                                \n");
+    sb.append("                        GROUP BY M170_DATE ),0)) AS HWAN_AMT                                                                    \n");
+    sb.append("                 ,NVL(MMDA_AMT,                                                                                                 \n");
+    sb.append("                     NVL(( SELECT SUM(NVL(M170_MMDABEFOREDAYJANAMT,0) + NVL(M170_JEUNGGAMAMT,0))                                \n");
+    sb.append("                         FROM M170_JANECKJANG_T                                                                                 \n");
+    sb.append("                        WHERE M170_YEAR = TMP_YEAR                                                                              \n");
+    sb.append("                          AND M170_DATE = BEFORE_DATE                                                                           \n");
+    sb.append("                          AND M170_ACCTYPE = 'A'                                                                                \n");
+    sb.append("                        GROUP BY M170_DATE ),0)) AS MMDA_AMT                                                                    \n");
+    sb.append("            FROM (                                                                                                              \n");
+    sb.append("                 SELECT B.GPOSI                                                                                                 \n");
+    sb.append("                      , B.POSI                                                                                                  \n");
+    sb.append("                      , B.TMP_YEAR                                                                                              \n");
+    sb.append("                      , B.TMP_DATE                                                                                              \n");
+    sb.append("                      , B.STARTYN                                                                                               \n");
+    sb.append("                      , (SELECT MAX(TARGET.M170_DATE)                                                                           \n");
+    sb.append("                           FROM M170_JANECKJANG_T TARGET                                                                        \n");
+    sb.append("                          WHERE TARGET.M170_YEAR = B.TMP_YEAR                                                                   \n");
+    sb.append("                            AND TARGET.M170_DATE < B.TMP_DATE) AS BEFORE_DATE                                                   \n");
+    sb.append("                      , A.*                                                                                                     \n");
+    sb.append("                   FROM (  SELECT M170_YEAR, M170_DATE , SUBSTR(M170_DATE,7,2) AS M170_DAY                                      \n");                     
+    sb.append("                                 ,SUM(NVL(M170_OFFICIALDEPOSITJANAMT,0)) AS GONGGUM_AMT                                         \n");
+    sb.append("                                 ,SUM(NVL(M170_DEPOSITBEFOREDAYJANAMT_1,0) + NVL(M170_DEPOSITJEUNGGAMAMT_1,0)                   \n");
+    sb.append("                                     +NVL(M170_DEPOSITBEFOREDAYJANAMT_2,0) + NVL(M170_DEPOSITJEUNGGAMAMT_2,0)                   \n");
+    sb.append("                                     +NVL(M170_DEPOSITBEFOREDAYJANAMT_3,0) + NVL(M170_DEPOSITJEUNGGAMAMT_3,0)                   \n");
+    sb.append("                                     +NVL(M170_DEPOSITBEFOREDAYJANAMT_4,0) + NVL(M170_DEPOSITJEUNGGAMAMT_4,0)) AS JEONGGI_AMT   \n");
+    sb.append("                                 ,SUM(NVL(M170_RPBEFOREDAYAMT_1,0) + NVL(M170_RPJEUNGGAMAMT_1,0)                                \n");
+    sb.append("                                     +NVL(M170_RPBEFOREDAYAMT_2,0) + NVL(M170_RPJEUNGGAMAMT_2,0)                                \n");
+    sb.append("                                     +NVL(M170_RPBEFOREDAYAMT_3,0) + NVL(M170_RPJEUNGGAMAMT_3,0)                                \n");
+    sb.append("                                     +NVL(M170_RPBEFOREDAYAMT_4,0) + NVL(M170_RPJEUNGGAMAMT_4,0)) AS HWAN_AMT                   \n");
+    sb.append("                                 ,SUM(NVL(M170_MMDABEFOREDAYJANAMT,0) + NVL(M170_JEUNGGAMAMT,0)) AS MMDA_AMT                    \n");
+    sb.append("                             FROM M170_JANECKJANG_T                                                                             \n");
+    sb.append("                            WHERE SUBSTR(M170_DATE, 1,6) = ?                                                                    \n");
+    sb.append("                              AND M170_ACCTYPE = 'A'                                                                            \n");
+    sb.append("                            GROUP BY M170_YEAR, M170_DATE                                                                       \n");
+    sb.append("                        ) A                                                                                                     \n");
+    sb.append("                      , ( SELECT GPOSI                                                                                          \n");
+    sb.append("                               , POSI                                                                                           \n");
+    sb.append("                               , M170_YEAR AS TMP_YEAR                                                                          \n");
+    sb.append("                               , ?||POSI AS TMP_DATE                                                                            \n");
+    sb.append("                               , ROW_NUMBER() OVER(PARTITION BY POSI ORDER BY M170_YEAR) AS STARTYN                             \n");
+    sb.append("                            FROM ( SELECT 1 AS GPOSI                                                                            \n");     
+    sb.append("                                        , LPAD(LEVEL,2,'0') POSI                                                                \n");  
+    sb.append("                                     FROM DUAL                                                                                  \n");
+    sb.append("                                  CONNECT BY LEVEL <= SUBSTR(LAST_DAY(TO_DATE(?,'YYYYMM')),7,2 )                                \n");
+    sb.append("                                  ) A                                                                                           \n");
+    sb.append("                               , ( SELECT M170_YEAR                                                                             \n");
+    sb.append("                                     FROM M170_JANECKJANG_T A                                                                   \n");
+    sb.append("                                    WHERE SUBSTR(M170_DATE, 1,6) = ?                                                            \n");
+    sb.append("                                      AND M170_ACCTYPE = 'A'                                                                    \n");
+    sb.append("                                    GROUP BY M170_YEAR )                                                                        \n");
+    sb.append("                        ) B                                                                                                     \n");
+    sb.append("                  WHERE B.TMP_YEAR = A.M170_YEAR(+)                                                                             \n");
+    sb.append("                    AND B.TMP_DATE = A.M170_DATE(+)                                                                             \n");
+    sb.append("                 )                                                                                                              \n");
+    sb.append("        )                                                                                                                       \n");
+    sb.append("  GROUP BY TMP_YEAR, GPOSI                                                                                                      \n");
+    sb.append("  )                                                                                                                             \n");
+
+    QueryTemplate template = new QueryTemplate(sb.toString());
+		QueryParameters parameters = new QueryParameters();
+    
+    int idx = 1;
+		parameters.setString(idx++, paramInfo.getString("acc_month"));
+    parameters.setString(idx++, paramInfo.getString("acc_month"));
+    parameters.setString(idx++, paramInfo.getString("acc_month"));
+    parameters.setString(idx++, paramInfo.getString("acc_month"));
+
+    return template.getData(conn, parameters);
+  }
+
+
+
+    /* 기간별 평잔조회 */
+    public static List<CommonEntity> getGiganList(Connection conn, CommonEntity paramInfo) throws SQLException {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(" WITH TMPDATA AS (                                                                                                                             \n");
+        sb.append(" SELECT M170_DATE                                                                                                                              \n");
+        sb.append("      , M170_ACCTYPE                                                                                                                           \n");
+        sb.append("      , DECODE(M170_ACCTYPE,'A','11', M170_ACCCODE) M170_ACCCODE                                                                               \n");
+        sb.append("      , M170_OFFICIALDEPOSITJANAMT AS GONGGUM_AMT                                                                                              \n");
+        sb.append("      , NVL(M170_DEPOSITBEFOREDAYJANAMT_1,0) + NVL(M170_DEPOSITJEUNGGAMAMT_1,0)                                                                \n");
+        sb.append("        +NVL(M170_DEPOSITBEFOREDAYJANAMT_2,0) + NVL(M170_DEPOSITJEUNGGAMAMT_2,0)                                                               \n");
+        sb.append("        +NVL(M170_DEPOSITBEFOREDAYJANAMT_3,0) + NVL(M170_DEPOSITJEUNGGAMAMT_3,0)                                                               \n");
+        sb.append("        +NVL(M170_DEPOSITBEFOREDAYJANAMT_4,0) + NVL(M170_DEPOSITJEUNGGAMAMT_4,0) AS JEONGGI_AMT   --정기예금                                       \n");
+        sb.append("      , NVL(M170_RPBEFOREDAYAMT_1,0) + NVL(M170_RPJEUNGGAMAMT_1,0)                                                                             \n");
+        sb.append("        +NVL(M170_RPBEFOREDAYAMT_2,0) + NVL(M170_RPJEUNGGAMAMT_2,0)                                                                            \n");
+        sb.append("        +NVL(M170_RPBEFOREDAYAMT_3,0) + NVL(M170_RPJEUNGGAMAMT_3,0)                                                                            \n");
+        sb.append("        +NVL(M170_RPBEFOREDAYAMT_4,0) + NVL(M170_RPJEUNGGAMAMT_4,0) AS HWAN_AMT   --환매채                                                        \n");
+        sb.append("      , NVL(M170_MMDABEFOREDAYJANAMT,0) + NVL(M170_JEUNGGAMAMT,0) AS MMDA_AMT  --MMDA                                                          \n");
+        sb.append("   FROM M170_JANECKJANG_T A                                                                                                                    \n");
+        sb.append("  WHERE M170_DATE BETWEEN GET_AGO_BUSINESSDAY(?) AND ?                                                                                         \n");
+        sb.append("    AND M170_ACCTYPE  = ?                                                                                                                      \n");
+        sb.append(" )                                                                                                                                             \n");
+        sb.append(" , TMPDATE AS                                                                                                                                  \n");
+        sb.append(" (SELECT M170_ACCTYPE, M170_ACCCODE, POSI, PROCDATE                                                                                            \n");
+        sb.append("    FROM (                                                                                                                                     \n");
+        sb.append("         SELECT M170_ACCTYPE, M170_ACCCODE                                                                                                     \n");
+        sb.append("           FROM TMPDATA                                                                                                                        \n");
+        sb.append("          GROUP BY M170_ACCTYPE, M170_ACCCODE ) A                                                                                              \n");
+        sb.append("       , (                                                                                                                                     \n");
+        sb.append("         SELECT GPOSI                                                                                                                          \n");
+        sb.append("              , POSI                                                                                                                           \n");
+        sb.append("              , TO_CHAR(TO_DATE(GET_AGO_BUSINESSDAY(?),'YYYYMMDD') + ( POSI - 1) ,'YYYYMMDD') AS PROCDATE                                      \n");
+        sb.append("           FROM (                                                                                                                              \n");
+        sb.append("                SELECT 1 AS GPOSI                                                                                                              \n");
+        sb.append("                     , LPAD(LEVEL,5,'0') POSI                                                                                                  \n");
+        sb.append("                  FROM DUAL                                                                                                                    \n");
+        sb.append("               CONNECT BY LEVEL <= 1 +                                                                                                         \n");
+        sb.append("                                  (TO_DATE(?,'YYYYMMDD') -                                                                                     \n");
+        sb.append("                                   TO_DATE(GET_AGO_BUSINESSDAY(?),'YYYYMMDD'))                                                                 \n");
+        sb.append("                )                                                                                                                              \n");
+        sb.append("         )                                                                                                                                     \n");
+        sb.append(" )                                                                                                                                             \n");
+        sb.append(" SELECT TMPNAME                                                                                                                                \n");
+        sb.append("      , TMPCODE                                                                                                                                \n");
+        sb.append("      , CASE WHEN TMPCODE = '00'                                                                                                               \n");
+        sb.append("             THEN '소계'                                                                                                                         \n");
+        sb.append("             ELSE CASE WHEN M170_ACCTYPE = 'E'                                                                                                 \n");
+        sb.append("                        AND TMPCODE = '16'                                                                                                     \n");
+        sb.append("                       THEN '사회복지'                                                                                                             \n");
+        sb.append("                       ELSE (SELECT M360_ACCNAME                                                                                               \n");
+        sb.append("                               FROM M360_ACCCODE_T                                                                                             \n");
+        sb.append("                              WHERE M360_ACCGUBUN = M170_ACCTYPE                                                                               \n");
+        sb.append("                                AND M360_ACCCODE = TMPCODE                                                                                     \n");
+        sb.append("                                AND M360_YEAR = SUBSTR(?, 1, 4)                                                                                \n");
+        sb.append("                            )                                                                                                                  \n");
+        sb.append("                   END                                                                                                                         \n");
+        sb.append("         END AS TMPACCNAME                                                                                                                     \n");
+        sb.append("      , GONGGUM_AMT                                                                                                                            \n");
+        sb.append("      , SAVE_AMT                                                                                                                               \n");
+        sb.append("      , (GONGGUM_AMT + SAVE_AMT) AS TOT_AMT                                                                                                    \n");
+        sb.append("   FROM (                                                                                                                                      \n");
+        sb.append("        SELECT M170_ACCTYPE                                                                                                                    \n");
+        sb.append("             , CASE WHEN M170_ACCTYPE = 'A'                                                                                                    \n");
+        sb.append("                    THEN '일반회계'                                                                                                                \n");
+        sb.append("                    WHEN M170_ACCTYPE = 'B'                                                                                                    \n");
+        sb.append("                    THEN '특별회계'                                                                                                                \n");
+        sb.append("                    WHEN M170_ACCTYPE = 'E'                                                                                                    \n");
+        sb.append("                    THEN '기금'                                                                                                                  \n");
+        sb.append("                END TMPNAME                                                                                                                    \n");
+        sb.append("             , NVL(CASE WHEN M170_ACCTYPE = 'B'                                                                                                \n");
+        sb.append("                         AND M170_ACCCODE = '06'                                                                                               \n");
+        sb.append("                        THEN '05'                                                                                                              \n");
+        sb.append("                        WHEN M170_ACCTYPE = 'B'                                                                                                \n");
+        sb.append("                         AND M170_ACCCODE = '69'                                                                                               \n");
+        sb.append("                        THEN '68'                                                                                                              \n");
+        sb.append("                        WHEN M170_ACCTYPE = 'E'                                                                                                \n");
+        sb.append("                         AND M170_ACCCODE = '17'                                                                                               \n");
+        sb.append("                        THEN '16'                                                                                                              \n");
+        sb.append("                        WHEN M170_ACCTYPE = 'E'                                                                                                \n");
+        sb.append("                         AND M170_ACCCODE = '18'                                                                                               \n");
+        sb.append("                        THEN '16'                                                                                                              \n");
+        sb.append("                        WHEN M170_ACCTYPE = 'E'                                                                                                \n");
+        sb.append("                         AND M170_ACCCODE = '40'                                                                                               \n");
+        sb.append("                        THEN '14'                                                                                                              \n");
+        sb.append("                        ELSE M170_ACCCODE                                                                                                      \n");
+        sb.append("                    END, '00') TMPCODE                                                                                                         \n");
+        sb.append("             , TRUNC(SUM(GONGGUM_AMT)/MAX(GCNT),0) GONGGUM_AMT                                                                                 \n");
+        sb.append("             , TRUNC(SUM(SAVE_AMT)/MAX(GCNT),0)  SAVE_AMT                                                                                      \n");
+        sb.append("          FROM (                                                                                                                               \n");
+        sb.append("               SELECT M170_ACCTYPE                                                                                                             \n");
+        sb.append("                    , M170_ACCCODE                                                                                                             \n");
+        sb.append("                    , COUNT(DISTINCT PROCDATE) OVER(PARTITION BY '1') GCNT                                                                     \n");
+        sb.append("                    , NVL(GONGGUM_AMT, (SELECT SUM(GONGGUM_AMT)                                                                                \n");
+        sb.append("                                          FROM TMPDATA                                                                                         \n");
+        sb.append("                                         WHERE M170_ACCTYPE = A.M170_ACCTYPE                                                                   \n");
+        sb.append("                                           AND M170_ACCCODE = A.M170_ACCCODE                                                                   \n");
+        sb.append("                                           AND M170_DATE = NVLMAXDATE)) GONGGUM_AMT                                                            \n");
+        sb.append("                    , NVL(SAVE_AMT, (SELECT SUM(SAVE_AMT)                                                                                      \n");
+        sb.append("                                          FROM TMPDATA                                                                                         \n");
+        sb.append("                                         WHERE M170_ACCTYPE = A.M170_ACCTYPE                                                                   \n");
+        sb.append("                                           AND M170_ACCCODE = A.M170_ACCCODE                                                                   \n");
+        sb.append("                                           AND M170_DATE = NVLMAXDATE)) SAVE_AMT                                                               \n");
+        sb.append("                 FROM (                                                                                                                        \n");
+        sb.append("                      SELECT ROW_NUMBER() OVER(PARTITION BY M170_ACCTYPE, M170_ACCCODE ORDER BY PROCDATE) GPROCNUM                             \n");
+        sb.append("                           , A.M170_ACCTYPE                                                                                                    \n");
+        sb.append("                           , A.M170_ACCCODE                                                                                                    \n");
+        sb.append("                           , A.PROCDATE                                                                                                        \n");
+        sb.append("                           , (SELECT MAX(M170_DATE)                                                                                            \n");
+        sb.append("                                FROM TMPDATA                                                                                                   \n");
+        sb.append("                               WHERE M170_ACCTYPE = A.M170_ACCTYPE                                                                             \n");
+        sb.append("                                 AND M170_ACCCODE = A.M170_ACCCODE                                                                             \n");
+        sb.append("                                 AND M170_DATE < PROCDATE) NVLMAXDATE                                                                          \n");
+        sb.append("                           , GONGGUM_AMT                                                                                                       \n");
+        sb.append("                           , SAVE_AMT                                                                                                          \n");
+        sb.append("                        FROM (                                                                                                                 \n");
+        sb.append("                             SELECT CASE WHEN PROCDATE >= ? THEN 'OK'                                                                          \n");
+        sb.append("                                    WHEN CHKDATE = 0  AND PROCDATE = MAX(CHKMAXDATE) OVER(PARTITION BY M170_ACCTYPE, M170_ACCCODE ) THEN 'OK'  \n");
+        sb.append("                                    ELSE 'NO' END SELGBN                                                                                       \n");
+        sb.append("                                  , A.*                                                                                                        \n");
+        sb.append("                               FROM (                                                                                                          \n");
+        sb.append("                                    SELECT A.M170_ACCTYPE, A.M170_ACCCODE, A.PROCDATE||'' PROCDATE, B.M170_DATE                                \n");
+        sb.append("                                         , B.GONGGUM_AMT                                                                                       \n");
+        sb.append("                                         , (B.JEONGGI_AMT + B.HWAN_AMT + B.MMDA_AMT) AS SAVE_AMT                                               \n");
+        sb.append("                                         , MAX(CASE WHEN B.M170_DATE < ? THEN B.M170_DATE ELSE '' END) OVER(PARTITION BY '1') CHKMAXDATE       \n");
+        sb.append("                                         , SUM(CASE WHEN B.M170_DATE = ? THEN 1 ELSE 0 END) OVER(PARTITION BY '1') CHKDATE                     \n");
+        sb.append("                                      FROM TMPDATE A, TMPDATA B                                                                                \n");
+        sb.append("                                     WHERE A.M170_ACCTYPE = B.M170_ACCTYPE(+)                                                                  \n");
+        sb.append("                                       AND A.M170_ACCCODE = B.M170_ACCCODE(+)                                                                  \n");
+        sb.append("                                       AND A.PROCDATE = B.M170_DATE(+)                                                                         \n");
+        sb.append("                                    ) A                                                                                                        \n");
+        sb.append("                             ) A                                                                                                               \n");
+        sb.append("                       WHERE SELGBN = 'OK'                                                                                                     \n");
+        sb.append("                      ) A                                                                                                                      \n");
+        sb.append("                 WHERE PROCDATE BETWEEN ? AND ?                                                                                                \n");
+        sb.append("                ) A                                                                                                                            \n");
+        sb.append("           GROUP BY M170_ACCTYPE,                                                                                                              \n");
+        sb.append("                    CASE WHEN M170_ACCTYPE = 'A'                                                                                               \n");
+        sb.append("                         THEN '일반회계'                                                                                                           \n");
+        sb.append("                         WHEN M170_ACCTYPE = 'B'                                                                                               \n");
+        sb.append("                         THEN '특별회계'                                                                                                           \n");
+        sb.append("                         WHEN M170_ACCTYPE = 'E'                                                                                               \n");
+        sb.append("                         THEN '기금'                                                                                                             \n");
+        sb.append("                     END ,                                                                                                                     \n");
+        sb.append("                    ROLLUP (                                                                                                                   \n");
+        sb.append("                           CASE WHEN M170_ACCTYPE = 'B'                                                                                        \n");
+        sb.append("                                 AND M170_ACCCODE = '06'                                                                                       \n");
+        sb.append("                                THEN '05'                                                                                                      \n");
+        sb.append("                                WHEN M170_ACCTYPE = 'B'                                                                                        \n");
+        sb.append("                                 AND M170_ACCCODE = '69'                                                                                       \n");
+        sb.append("                                THEN '68'                                                                                                      \n");
+        sb.append("                                WHEN M170_ACCTYPE = 'E'                                                                                        \n");
+        sb.append("                                 AND M170_ACCCODE = '17'                                                                                       \n");
+        sb.append("                                THEN '16'                                                                                                      \n");
+        sb.append("                                WHEN M170_ACCTYPE = 'E'                                                                                        \n");
+        sb.append("                                 AND M170_ACCCODE = '18'                                                                                       \n");
+        sb.append("                                THEN '16'                                                                                                      \n");
+        sb.append("                                WHEN M170_ACCTYPE = 'E'                                                                                        \n");
+        sb.append("                                 AND M170_ACCCODE = '40'                                                                                       \n");
+        sb.append("                                THEN '14'                                                                                                      \n");
+        sb.append("                                ELSE M170_ACCCODE                                                                                              \n");
+        sb.append("                            END)                                                                                                               \n");
+        sb.append("       ) X                                                                                                                                     \n");
+        sb.append(" ORDER BY TMPCODE                                                                                                                              \n");
+        QueryTemplate template = new QueryTemplate(sb.toString());
+        QueryParameters parameters = new QueryParameters();
+
+        int idx = 1;
+
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("end_date"));
+        parameters.setString(idx++, paramInfo.getString("acc_type"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("end_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("start_date"));
+        parameters.setString(idx++, paramInfo.getString("end_date"));
+
+        return template.getList(conn, parameters);
+    }
+}

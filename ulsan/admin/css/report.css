@@ -1,0 +1,83 @@
+<!--
+td {  font-family:"arial","굴림","Helvetica", "sans-serif"; font-size: 7pt; color: #000000; text-decoration: none}
+a {  font-family: "arial","굴림", "Helvetica", "sans-serif"; font-size: 9pt; color: #333333; text-decoration: none}
+a:hover {  font-family: "arial","굴림", "Helvetica", "sans-serif"; font-size: 9pt; color: #999999; text-decoration: underline}
+
+img {border:0;border:none;}
+
+
+
+/* 세입세출일계표 */
+.hd_in {width:100%;margin-bottom:0px;border-top:1px solid #8f8f8f;line-height:100%;}
+.hd_in th{height:9px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;background:#cacaca;font-weight:bold;font-size:8px;color:#000000;padding:0px;}
+.hd_in th.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_in td {height:9px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;color:#000000;padding:0px;font-size:8px;}
+.hd_in td.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_in td.num {height:9px;text-align:right; padding:0px;}
+
+/* 회계별 */
+.hd_out {width:100%;margin-bottom:7px;border-top:1px solid #8f8f8f;line-height:120%;}
+.hd_out th{height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;background:#cacaca;font-weight:bold;font-size:10px;color:#000000;padding:0px;}
+.hd_out th.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_out td {height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:left;color:#000000;padding:0px;font-size:9px;}
+.hd_out td.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_out td.num {height:12px;text-align:right; padding:0px;}
+
+/* 일괄잔액대사표, 공금예금 거래내역, 과오납환급월보 */
+.hd_li {width:100%;margin-bottom:10px;border-top:1px solid #8f8f8f;line-height:140%;}
+.hd_li th{height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;background:#cacaca;font-weight:bold;font-size:11px;color:#000000;padding:0px;}
+.hd_li th.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_li td {height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;color:#000000;padding:0px;font-size:11px;}
+.hd_li td.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_li td.num {height:12px;text-align:right; padding:0px;}
+
+/* 세입월계표, 세출월계표 */
+.hd_tl {width:100%;margin-bottom:10px;border-top:1px solid #8f8f8f;line-height:140%;}
+.hd_tl th{height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;background:#cacaca; font-size:10pt;color:#000000;padding:0px;}
+.hd_tl th.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_tl td {height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:left;color:#000000;padding:0px;font-size:10pt;}
+.hd_tl td.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_tl td.num {height:12px;text-align:right; padding:0px;}
+
+/* 자금일계표 */
+.hd_ta {width:100%;margin-bottom:5px;border-top:1px solid #8f8f8f;line-height:110%;}
+.hd_ta th{height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center; background:#cacaca;font-weight:bold;font-size:10pt;color:#000000;padding:0px;}
+.hd_ta th.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_ta td {height:12px;border-right:1px solid #8f8f8f;border-bottom:1px solid #8f8f8f;text-align:center;color:#000000;padding:0px;font-size:9pt;}
+.hd_ta td.fst {padding:0px;border-left:1px solid #8f8f8f;}
+.hd_ta td.num {height:12px;text-align:right; padding:0px;}
+
+/* 테이블 하단 */
+table.btn {text-align:right;margin-top:15px;width:100%}
+
+/*상단타이틀*/
+.sub_title {background:url(../img/sub_tl_icon.gif) no-repeat 0 0px; padding:0px 0px 0px 15px; float:left; height:20px; font-weight:bold;}
+
+
+//기본
+
+.board {  font-family:"arial","Helvetica", "sans-serif"; font-size: 9pt; color: #3399CC; text-decoration: none}
+.board a {  font-family: "arial", "Helvetica", "sans-serif"; font-size: 9pt; color: #3399CC; text-decoration: none}
+.board a:hover {  font-family: "arial", "Helvetica", "sans-serif"; font-size: 9pt; color: #999999; text-decoration: none}
+
+
+.timec_txt {font-family:"arial","굴림"; font-size:12px; color:#ffffff; background-color:#0066cc; letter-spacing:0px; }
+
+.border_right { border-right: 2px dotted #CCCCCC }
+
+.submit { font-family: "arial","굴림"; font-size: 8pt; color: #666666; Background-color:#ffffff; Border:2x SOLID #CCCCCC; line-height: 
+            11px;padding-top: 4px;}
+
+BODY
+{
+    SCROLLBAR-FACE-COLOR: #CCCCCC;
+    SCROLLBAR-HIGHLIGHT-COLOR: #FFFFFF;
+    SCROLLBAR-SHADOW-COLOR: #FFFFFF;
+    SCROLLBAR-3DLIGHT-COLOR: #FFFFFF;
+    SCROLLBAR-ARROW-COLOR: #FFFFFF;
+    SCROLLBAR-TRACK-COLOR: #FFFFFF;
+    SCROLLBAR-DARKSHADOW-COLOR: #CCCCCC
+}
+-->
+
+

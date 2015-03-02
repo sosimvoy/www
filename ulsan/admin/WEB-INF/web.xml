@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+     <filter>
+        <filter-name>admin.urlFilter</filter-name>
+        <filter-class>com.etax.framework.filter.URLFilter</filter-class>
+        <init-param>
+           <param-name>paramName</param-name>
+           <param-value>value</param-value>
+        </init-param>
+     </filter>
+     <filter-mapping>
+        <filter-name>admin.urlFilter</filter-name>
+        <servlet-name>admin.controller</servlet-name>
+     </filter-mapping>
+	<servlet>
+		<servlet-name>admin.controller</servlet-name>
+		<display-name />
+		<description>Command Factory 패턴 사용 서블릿</description>
+		<servlet-class>com.etax.servlet.ETaxServlet</servlet-class>
+		<init-param>
+			<param-name>commandXml</param-name>
+			<param-value>/WEB-INF/config/command_list.xml</param-value>
+			<description>Command 매칭 설정파일</description>
+		</init-param>
+		<init-param>
+			<param-name>etaxConfigFileName</param-name>
+			<param-value>/WEB-INF/config/etax_config.properties</param-value>
+			<description>etax admin properties 설정파일</description>
+		</init-param>
+		<init-param>
+			<param-name>messageFile</param-name>
+			<param-value>/WEB-INF/config/message.properties</param-value>
+			<description>message 설정 properties 파일</description>
+		</init-param>
+		<init-param>
+			<param-name>messageViewPage</param-name>
+			<param-value>/admin/common/message_view.jsp</param-value>
+			<description>message 처리 뷰 페이지</description>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>admin.controller</servlet-name>
+		<url-pattern>*.etax</url-pattern>
+	</servlet-mapping>
+    <error-page>
+      <error-code>404</error-code>
+      <location>/common/etax_error.jsp</location>
+    </error-page>
+    <error-page>
+      <error-code>500</error-code>
+      <location>/common/etax_error.jsp</location>
+    </error-page>
+    <error-page>
+      <exception-type>java.lang.Throwable</exception-type>
+      <location>/common/etax_error.jsp</location>
+    </error-page>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>

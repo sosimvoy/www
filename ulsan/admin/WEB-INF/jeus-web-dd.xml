@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jeus-web-dd xmlns="http://www.tmaxsoft.com/xml/ns/jeus">
+    <auto-reload>
+        <enable-reload>true</enable-reload>
+        <check-on-demand>true</check-on-demand>
+    </auto-reload>
+    <properties>
+        <property>
+            <key>jeus.servlet.jsp.modern</key>
+            <value>false</value>
+        </property>
+    </properties>
+    <session-config>
+        <url-rewriting>false</url-rewriting>
+    </session-config>
+</jeus-web-dd>
