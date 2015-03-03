@@ -54,12 +54,12 @@ public class IR010710 {
 		sb.append("		          ,A.ETC_ACCDATE AS M010_DATE                                                                                                                               	\n");		// 회계구분(h)     
 		sb.append("		          ,? AS M010_ACCTYPE                                                                                                                                      	\n");		// 회계코드(변환)  
 		sb.append("		          ,B.M420_SYSTEMACCCODE AS M010_ACCCODE                                                                                                                     	\n"); 
-		sb.append("		          ,CASE WHEN SUBSTR(A.ETC_ACCDATE,1,4) = A.ETC_YYYY THEN B.M420_SYSTEMSEMOKCODE                                                                             	\n");		 
-		sb.append("		                WHEN SUBSTR(A.ETC_ACCDATE,1,4) > A.ETC_YYYY                                                                                                         	\n");		
-		sb.append("		                THEN (CASE WHEN SUBSTR(A.ETC_ACCDATE,5,8) >= '0301' THEN '2290100'                                                                                  	\n");		
-		sb.append("		                           ELSE (CASE WHEN TO_CHAR(SUBSTR(A.ETC_ACCDATE,1,4) - 1) = A.ETC_YYYY THEN B.M420_SYSTEMSEMOKCODE                                          	\n");		
-		sb.append("		                                      ELSE '2290100' END)                                                                                                           	\n");		
-		sb.append("		                           END)                                                                                                                                     	\n");		
+		sb.append("		          ,CASE WHEN SUBSTR(A.ETC_ACCDATE,1,4) = A.ETC_YYYY THEN B.M420_SYSTEMSEMOKCODE                                                                             	\n");
+		sb.append("		                WHEN SUBSTR(A.ETC_ACCDATE,1,4) > A.ETC_YYYY                                                                                                         	\n");
+		sb.append("		                THEN (CASE WHEN SUBSTR(A.ETC_ACCDATE,5,8) >= '0301' THEN '2290100'                                                                                  	\n");
+		sb.append("		                           ELSE (CASE WHEN TO_CHAR(SUBSTR(A.ETC_ACCDATE,1,4) - 1) = A.ETC_YYYY THEN B.M420_SYSTEMSEMOKCODE                                          	\n");
+		sb.append("		                                      ELSE '2290100' END)                                                                                                           	\n");
+		sb.append("		                           END)                                                                                                                                     	\n");
 		sb.append("		            END M010_SEMOKCODE                                                                                                                                      	\n");	    // 세목코드(변환 - 계산)	
 		sb.append("		          ,C.M410_SYSTEMPARTCODE AS M010_PARTCODE                                                                                                                   	\n");	// 부서코드(변환)  	
 		sb.append("		          ,?    AS M010_SUNAPGIGWANCODE                                                                                                                      	\n");	// 수납기관코드(h) 	
